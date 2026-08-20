@@ -2,8 +2,6 @@
   <img src="https://raw.githubusercontent.com/Lucas18062025/secure-web-platform/main/assets/banner.png" alt="Secure Web Platform — Security Engineering Platform" width="100%" />
 </p>
 
-<h1 align="center">🛡️ SECURE-WEB-PLATFORM</h1>
-
 <p align="center">
   <strong>Security Engineering Platform</strong><br />
   <em>Identify. Prioritize. Remediate.</em>
@@ -82,16 +80,16 @@ La interfaz y la arquitectura base están implementadas. El siguiente paso es co
 
 ## 🌐 Demo
 
-> URL pública de Cloudflare: **(https://frontend.lucaslean1806.workers.dev/)**
+> URL pública de Cloudflare: **<https://frontend.lucaslean1806.workers.dev/>**
 
 ## 👨‍💻 Autor
 
 **Lucas Villagra**  
 Cybersecurity Analyst · Ethical Hacker · SOC Analyst
 
-- GitHub: https://github.com/Lucas18062025
-- LinkedIn: https://www.linkedin.com/in/lucas-villagra-cybersecurity
-- Portfolio: https://portafolio.lucaslean1806.workers.dev/
+- GitHub: <https://github.com/Lucas18062025>
+- LinkedIn: <https://www.linkedin.com/in/lucas-villagra-cybersecurity>
+- Portfolio: <https://portafolio.lucaslean1806.workers.dev/>
 
 ---
 
