@@ -82,7 +82,7 @@ La interfaz y la arquitectura base están implementadas. El siguiente paso es co
 
 ## 🌐 Demo
 
-> URL pública de Cloudflare: **pendiente de despliegue**
+> URL pública de Cloudflare: **(https://frontend.lucaslean1806.workers.dev/)**
 
 ## 👨‍💻 Autor
 
