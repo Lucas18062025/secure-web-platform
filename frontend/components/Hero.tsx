@@ -13,38 +13,41 @@ export function Hero() {
                 <div>
                     <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs font-medium text-[var(--accent-soft)]">
                         <span className="h-1.5 w-1.5 rounded-full bg-[var(--success)]" />
-                        Security engineering platform
+                        Plataforma de ingeniería de seguridad
                     </div>
 
                     <h1 className="max-w-3xl text-5xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-6xl lg:text-7xl">
-                        Security that works
+                        Seguridad que actúa
                         <span className="block text-[var(--accent)]">
-                            before the attack.
+                            antes del ataque.
                         </span>
                     </h1>
 
                     <p className="mt-7 max-w-2xl text-lg leading-8 text-[var(--text-secondary)]">
-                        Understand your attack surface, identify risk and take action from
-                        a single security-focused platform.
+                        Comprende tu superficie de ataque, identifica riesgos y toma medidas desde
+                        una única plataforma enfocada en la seguridad.
                     </p>
 
                     <div className="mt-9 flex flex-wrap gap-4">
                         <button className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-3.5 text-sm font-semibold text-[#0B0D0F] transition hover:bg-[var(--accent-soft)]">
-                            Start assessment
+                            Iniciar análisis
                             <ArrowUpRightIcon />
                         </button>
 
-                        <button className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-5 py-3.5 text-sm font-semibold text-[var(--text-primary)] transition hover:border-[var(--accent)]">
-                            Explore platform
-                        </button>
+                        <a
+                            href="/dashboard"
+                            className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-5 py-3.5 text-sm font-semibold text-[var(--text-primary)] transition hover:border-[var(--accent)]"
+                        >
+                            Explorar plataforma
+                        </a>
                     </div>
 
                     <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-xs text-[var(--text-secondary)]">
-                        <span>Built for security teams</span>
+                        <span>Pensado para equipos de seguridad</span>
                         <span>•</span>
-                        <span>Human-readable findings</span>
+                        <span>Hallazgos explicados con claridad</span>
                         <span>•</span>
-                        <span>Security by design</span>
+                        <span>Seguridad desde el diseño</span>
                     </div>
                 </div>
 

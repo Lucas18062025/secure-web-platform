@@ -8,28 +8,28 @@ import {
 const features = [
     {
         icon: ScanIcon,
-        title: "Security Scan",
+        title: "Análisis de seguridad",
         description:
-            "Analyze applications and services to identify weaknesses across your attack surface.",
+            "Detecta debilidades antes de que puedan convertirse en incidentes que afecten la operación, los datos o la confianza de los clientes.",
         large: true,
     },
     {
         icon: ShieldAlertIcon,
-        title: "Vulnerability Management",
+        title: "Gestión de vulnerabilidades",
         description:
-            "Centralize findings and prioritize remediation by risk.",
+            "Prioriza los riesgos que pueden generar mayores pérdidas y enfoca los esfuerzos de corrección donde más impacto tienen.",
     },
     {
         icon: GaugeIcon,
-        title: "Security Score",
+        title: "Puntaje de seguridad",
         description:
-            "Measure your security posture with a signal that is easy to understand.",
+            "Convierte el estado de seguridad en un indicador fácil de interpretar para evaluar riesgos y tomar decisiones.",
     },
     {
         icon: SlidersIcon,
-        title: "Configuration",
+        title: "Configuración",
         description:
-            "Keep security controls, policies and application settings organized.",
+            "Mantiene organizados los controles y políticas de seguridad para reducir errores, exposición innecesaria y riesgos operativos.",
     },
 ];
 
@@ -38,16 +38,16 @@ export function FeatureGrid() {
         <section id="security" className="mx-auto max-w-7xl px-6 py-24">
             <div className="max-w-2xl">
                 <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
-                    Security capabilities
+                    Seguridad orientada al negocio
                 </p>
 
                 <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-4xl">
-                    Security controls without unnecessary noise.
+                    Identifica riesgos antes de que se conviertan en problemas.
                 </h2>
 
                 <p className="mt-4 text-base leading-7 text-[var(--text-secondary)]">
-                    A focused interface for understanding risk, prioritizing findings
-                    and making better security decisions.
+                    Comprende qué puede afectar tu operación, prioriza los riesgos
+                    más importantes y toma decisiones de seguridad con información clara.
                 </p>
             </div>
 
@@ -76,7 +76,7 @@ export function FeatureGrid() {
                             </p>
 
                             <div className="mt-8 text-xs font-medium uppercase tracking-[0.16em] text-[var(--accent-soft)]">
-                                Explore capability
+                                Ver capacidad
                             </div>
                         </article>
                     );

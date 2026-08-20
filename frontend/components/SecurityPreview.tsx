@@ -8,17 +8,17 @@ export function SecurityPreview() {
                     <div className="flex items-start justify-between">
                         <div>
                             <p className="text-xs uppercase tracking-[0.2em] text-[var(--text-secondary)]">
-                                System status
+                                Estado del sistema
                             </p>
 
                             <p className="mt-2 text-sm font-semibold text-[var(--text-primary)]">
-                                Security posture
+                                Postura de seguridad
                             </p>
                         </div>
 
                         <div className="flex items-center gap-2 rounded-full border border-[var(--success)]/20 bg-[var(--success)]/10 px-3 py-1.5 text-xs font-medium text-[var(--success)]">
                             <span className="h-1.5 w-1.5 rounded-full bg-[var(--success)]" />
-                            Secure
+                            Seguro
                         </div>
                     </div>
 
@@ -29,7 +29,7 @@ export function SecurityPreview() {
                             </p>
 
                             <p className="mt-1 text-sm text-[var(--text-secondary)]">
-                                Security score / 100
+                                Puntuación de seguridad / 100
                             </p>
                         </div>
 
@@ -41,10 +41,10 @@ export function SecurityPreview() {
                     <div className="my-8 h-px bg-[var(--border)]" />
 
                     <div className="space-y-4">
-                        <SecurityMetric label="Critical" value="0" status="safe" />
-                        <SecurityMetric label="High" value="2" status="warning" />
-                        <SecurityMetric label="Medium" value="7" status="neutral" />
-                        <SecurityMetric label="Low" value="14" status="neutral" />
+                        <SecurityMetric label="Crítico" value="0" status="safe" />
+                        <SecurityMetric label="Alto" value="2" status="warning" />
+                        <SecurityMetric label="Medio" value="7" status="neutral" />
+                        <SecurityMetric label="Bajo" value="14" status="neutral" />
                     </div>
 
                     <div className="mt-8 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-4">
@@ -55,11 +55,11 @@ export function SecurityPreview() {
 
                             <div>
                                 <p className="text-sm font-medium text-[var(--text-primary)]">
-                                    2 high-risk findings
+                                    2 hallazgos de alto riesgo
                                 </p>
 
                                 <p className="text-xs text-[var(--text-secondary)]">
-                                    Review recommended actions
+                                    Revisar las acciones recomendadas
                                 </p>
                             </div>
                         </div>

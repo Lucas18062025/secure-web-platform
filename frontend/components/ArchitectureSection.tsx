@@ -16,17 +16,17 @@ export function ArchitectureSection() {
                 <div className="grid gap-12 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
                     <div>
                         <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
-                            Security by design
+                            Seguridad desde el diseño
                         </p>
 
                         <h2 className="mt-4 text-3xl font-semibold tracking-tight text-[var(--text-primary)] sm:text-4xl">
-                            Security is part of the architecture.
+                            La seguridad forma parte de la arquitectura.
                         </h2>
 
                         <p className="mt-5 max-w-xl text-base leading-7 text-[var(--text-secondary)]">
-                            Every layer has a defined responsibility. The interface does not
-                            make authorization decisions, and sensitive data never needs to
-                            live in the browser.
+                            Cada capa tiene una responsabilidad definida. La interfaz no
+                            toma decisiones de autorización y los datos sensibles no
+                            necesitan almacenarse en el navegador.
                         </p>
                     </div>
 
