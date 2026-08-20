@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="https://raw.githubusercontent.com/Lucas18062025/secure-web-platform/main/assets/banner.svg" alt="Secure Web Platform — Security Engineering Platform" width="100%" />
+  <img src="https://raw.githubusercontent.com/Lucas18062025/secure-web-platform/main/assets/banner.png" alt="Secure Web Platform — Security Engineering Platform" width="100%" />
 </p>
 
 <h1 align="center">🛡️ SECURE-WEB-PLATFORM</h1>
