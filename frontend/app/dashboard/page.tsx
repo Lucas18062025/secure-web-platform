@@ -6,12 +6,12 @@ export default function DashboardPage() {
                     <div>
                         <p className="text-lg font-semibold">Secure Web Platform</p>
                         <p className="mt-1 text-xs text-[var(--text-secondary)]">
-                            Security dashboard
+                            Panel de seguridad
                         </p>
                     </div>
 
                     <div className="rounded-full border border-[var(--border)] bg-[var(--surface)] px-3 py-1.5 text-xs text-[var(--success)]">
-                        System secure
+                        Sistema seguro
                     </div>
                 </div>
             </header>
@@ -19,150 +19,150 @@ export default function DashboardPage() {
             <section className="mx-auto max-w-7xl px-6 py-10">
                 <div>
                     <p className="text-xs font-semibold uppercase tracking-[0.2em] text-[var(--accent)]">
-                        Dashboard
+                        Panel
                     </p>
 
                     <h1 className="mt-3 text-3xl font-semibold tracking-tight sm:text-4xl">
-                        Security posture
+                        Postura de seguridad
                     </h1>
 
                     <p className="mt-3 max-w-2xl text-sm leading-7 text-[var(--text-secondary)]">
-                        A centralized view of your current security posture, findings,
-                        assets and recent activity.
+                        Una vista centralizada de su postura de seguridad actual, hallazgos,
+                        activos y actividad reciente.
                     </p>
                 </div>
 
-                {/* Security metrics */}
+                {/* Métricas de seguridad */}
                 <div className="mt-10 grid gap-5 md:grid-cols-2 lg:grid-cols-4">
                     <MetricCard
-                        label="Security Score"
+                        label="Puntuación de seguridad"
                         value="94"
                         suffix="/100"
                         accent="score"
                     />
 
                     <MetricCard
-                        label="Critical"
+                        label="Críticos"
                         value="0"
-                        suffix="findings"
+                        suffix="hallazgos"
                         accent="safe"
                     />
 
                     <MetricCard
-                        label="High"
+                        label="Altos"
                         value="2"
-                        suffix="findings"
+                        suffix="hallazgos"
                         accent="warning"
                     />
 
                     <MetricCard
-                        label="Assets"
+                        label="Activos monitoreados"
                         value="6"
-                        suffix="monitored"
+                        suffix="monitoreados"
                         accent="neutral"
                     />
                 </div>
 
-                {/* Main dashboard */}
+                {/* Dashboard principal */}
                 <div className="mt-6 grid gap-6 lg:grid-cols-[1.1fr_0.9fr]">
                     <section className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6">
                         <div className="flex items-center justify-between">
                             <div>
                                 <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-secondary)]">
-                                    Findings
+                                    Hallazgos
                                 </p>
 
                                 <h2 className="mt-2 text-xl font-semibold">
-                                    Recent security findings
+                                    Hallazgos de seguridad recientes
                                 </h2>
                             </div>
 
                             <span className="rounded-full border border-[var(--border)] px-3 py-1 text-xs text-[var(--text-secondary)]">
-                                Example data
+                                Datos de ejemplo
                             </span>
                         </div>
 
                         <div className="mt-6 space-y-3">
                             <FindingRow
                                 severity="HIGH"
-                                title="Improper access control"
-                                category="Broken access control"
+                                title="Control de acceso inadecuado"
+                                category="Control de acceso"
                             />
 
                             <FindingRow
                                 severity="HIGH"
-                                title="Weak security headers"
-                                category="Security configuration"
+                                title="Cabeceras de seguridad débiles"
+                                category="Configuración de seguridad"
                             />
 
                             <FindingRow
                                 severity="MEDIUM"
-                                title="Information disclosure"
-                                category="Information exposure"
+                                title="Divulgación de información"
+                                category="Exposición de información"
                             />
 
                             <FindingRow
                                 severity="LOW"
-                                title="Missing security policy"
-                                category="Security configuration"
+                                title="Política de seguridad ausente"
+                                category="Configuración de seguridad"
                             />
                         </div>
                     </section>
 
                     <section className="rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6">
                         <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-secondary)]">
-                            Assets
+                            Activos
                         </p>
 
                         <h2 className="mt-2 text-xl font-semibold">
-                            Monitored assets
+                            Activos monitoreados
                         </h2>
 
                         <div className="mt-6 space-y-4">
                             <AssetRow
                                 name="web-application"
-                                type="Web application"
-                                status="Healthy"
+                                type="Aplicación web"
+                                status="Saludable"
                             />
 
                             <AssetRow
                                 name="api-service"
                                 type="REST API"
-                                status="Needs review"
+                                status="Requiere revisión"
                             />
 
                             <AssetRow
                                 name="admin-portal"
-                                type="Web application"
-                                status="Healthy"
+                                type="Aplicación web"
+                                status="Saludable"
                             />
                         </div>
                     </section>
                 </div>
 
-                {/* Activity */}
+                {/* Actividad */}
                 <section className="mt-6 rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-6">
                     <p className="text-xs uppercase tracking-[0.18em] text-[var(--text-secondary)]">
-                        Activity
+                        Actividad
                     </p>
 
                     <h2 className="mt-2 text-xl font-semibold">
-                        Recent activity
+                        Actividad reciente
                     </h2>
 
                     <div className="mt-6 grid gap-4 md:grid-cols-3">
                         <ActivityItem
-                            title="Security scan completed"
+                            title="Análisis de seguridad completado"
                             description="web-application"
                         />
 
                         <ActivityItem
-                            title="Finding updated"
-                            description="Improper access control"
+                            title="Hallazgo actualizado"
+                            description="Control de acceso inadecuado"
                         />
 
                         <ActivityItem
-                            title="Asset added"
+                            title="Activo agregado"
                             description="admin-portal"
                         />
                     </div>
@@ -199,7 +199,7 @@ function MetricCard({
             </p>
 
             <div className="mt-5 flex items-end gap-2">
-                <span className={`text-4xl font-semibold ${accentClass}`}>
+                <span className={"text-4xl font-semibold " + accentClass}>
                     {value}
                 </span>
 
@@ -227,11 +227,18 @@ function FindingRow({
                 ? "text-[var(--accent-soft)]"
                 : "text-[var(--text-secondary)]";
 
+    const severityLabel =
+        severity === "HIGH"
+            ? "ALTO"
+            : severity === "MEDIUM"
+                ? "MEDIO"
+                : "BAJO";
+
     return (
         <div className="flex items-center justify-between gap-4 rounded-xl border border-[var(--border)] bg-[var(--surface-secondary)] p-4">
             <div>
-                <p className={`font-mono text-xs font-semibold ${severityClass}`}>
-                    {severity}
+                <p className={"font-mono text-xs font-semibold " + severityClass}>
+                    {severityLabel}
                 </p>
 
                 <p className="mt-1 text-sm font-medium">
@@ -244,7 +251,7 @@ function FindingRow({
             </div>
 
             <span className="text-xs text-[var(--text-secondary)]">
-                Review
+                Revisar
             </span>
         </div>
     );
@@ -259,7 +266,7 @@ function AssetRow({
     type: string;
     status: string;
 }) {
-    const healthy = status === "Healthy";
+    const healthy = status === "Saludable";
 
     return (
         <div className="flex items-center justify-between gap-4 border-b border-[var(--border)] pb-4 last:border-0 last:pb-0">
@@ -274,10 +281,7 @@ function AssetRow({
             </div>
 
             <span
-                className={`text-xs font-medium ${healthy
-                    ? "text-[var(--success)]"
-                    : "text-[var(--accent-soft)]"
-                    }`}
+                className={"text-xs font-medium " + (healthy ? "text-[var(--success)]" : "text-[var(--accent-soft)]")}
             >
                 {status}
             </span>
