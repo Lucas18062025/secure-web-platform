@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowUpRightIcon } from "./Icons";
 import { SecurityPreview } from "./SecurityPreview";
 
@@ -29,17 +30,20 @@ export function Hero() {
                     </p>
 
                     <div className="mt-9 flex flex-wrap gap-4">
-                        <button className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-3.5 text-sm font-semibold text-[#0B0D0F] transition hover:bg-[var(--accent-soft)]">
+                        <Link
+                            href="/analysis/new"
+                            className="inline-flex items-center gap-2 rounded-xl bg-[var(--accent)] px-5 py-3.5 text-sm font-semibold text-[#0B0D0F] transition hover:bg-[var(--accent-soft)]"
+                        >
                             Iniciar análisis
                             <ArrowUpRightIcon />
-                        </button>
+                        </Link>
 
-                        <a
+                        <Link
                             href="/dashboard"
                             className="rounded-xl border border-[var(--border)] bg-[var(--surface)] px-5 py-3.5 text-sm font-semibold text-[var(--text-primary)] transition hover:border-[var(--accent)]"
                         >
                             Explorar plataforma
-                        </a>
+                        </Link>
                     </div>
 
                     <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2 text-xs text-[var(--text-secondary)]">
