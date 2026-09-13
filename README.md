@@ -76,7 +76,10 @@ La plataforma está diseñada siguiendo una separación clara de responsabilidad
 
 **En desarrollo.**
 
-La interfaz y la arquitectura base están implementadas. El siguiente paso es conectar las capas de backend, persistencia, autenticación/autorización y comenzar el despliegue público.
+La interfaz y la arquitectura base están implementadas. El backend expone
+scoring demo (`GET /api/score`, ver `backend/README.md`); el siguiente paso
+es el scanner real, persistencia (`database/README.md`), autenticación/autorización
+y despliegue público.
 
 ## 🌐 Demo
 
