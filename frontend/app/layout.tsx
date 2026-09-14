@@ -17,7 +17,7 @@ export const metadata: Metadata = {
   description:
     "Security engineering platform for understanding risk, attack surface and application security.",
   verification: {
-    google: "google0cbe515c88088343",
+    google: "zq6NumPlkN-eb7u_bSJ4jdGrkbbpXoYq9zBiCoyjEew",
   },
 };
 
