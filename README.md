@@ -81,9 +81,9 @@ scoring demo (`GET /api/score`, ver `backend/README.md`); el siguiente paso
 es el scanner real, persistencia (`database/README.md`), autenticación/autorización
 y despliegue público.
 
-## 🌐 Demo
+## 🌐 Deploy
 
-> URL pública de Cloudflare: **<https://frontend.lucaslean1806.workers.dev/>**
+> URL pública: **<https://frontend.lucaslean1806.workers.dev/>**
 
 ## 👨‍💻 Autor
 
