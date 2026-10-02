@@ -72,6 +72,21 @@ export function SecurityFinding() {
                             </p>
                         </div>
 
+                        <div>
+                            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-[var(--text-secondary)]">
+                                Cumplimiento (Compliance)
+                            </p>
+                            
+                            <div className="mt-2 flex flex-wrap gap-2">
+                                <span className="rounded-full border border-[var(--border)] bg-[var(--surface-secondary)] px-3 py-1.5 text-xs text-[var(--text-secondary)] font-mono font-medium">
+                                    OWASP: A01:2021
+                                </span>
+                                <span className="rounded-full border border-[var(--border)] bg-[var(--surface-secondary)] px-3 py-1.5 text-xs text-[var(--text-secondary)] font-mono font-medium">
+                                    PCI-DSS: 6.5.8
+                                </span>
+                            </div>
+                        </div>
+
                         <div className="rounded-2xl border border-[var(--border)] bg-[var(--surface-secondary)] p-4 text-xs leading-6 text-[var(--text-secondary)]">
                             <p className="mb-3 font-semibold uppercase tracking-[0.16em] text-[var(--text-secondary)]">
                                 Detalles técnicos

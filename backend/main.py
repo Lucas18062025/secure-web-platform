@@ -32,6 +32,7 @@ _DEMO_FINDINGS = [
         "technical": "El valor del query se refleja en el DOM sin sanitizar.",
         "business_impact": "Robo de sesión de clientes y daño reputacional.",
         "remediation": "Escapar output y aplicar Content-Security-Policy.",
+        "compliance": ["OWASP Top 10: A03:2021", "PCI-DSS: 6.5.7"],
     },
     {
         "id": "HDR-02",
@@ -40,6 +41,7 @@ _DEMO_FINDINGS = [
         "technical": "Sin X-Content-Type-Options ni Referrer-Policy.",
         "business_impact": "Aumenta la superficie ante clickjacking y MIME-sniffing.",
         "remediation": "Emitir headers desde el edge (ver frontend/public/_headers).",
+        "compliance": ["OWASP Top 10: A05:2021", "ISO 27001: A.14.1.2"],
     },
 ]
 
