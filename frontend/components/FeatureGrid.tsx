@@ -104,8 +104,8 @@ export function FeatureGrid() {
             </div>
 
             {isModalOpen && (
-                <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md p-4 sm:p-8">
-                    <div className="relative mx-auto my-8 mt-12 w-full max-w-4xl rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-2 shadow-2xl">
+                <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md p-4 sm:p-8 flex justify-center items-start">
+                    <div className="relative my-8 mt-12 w-full max-w-6xl rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-3 shadow-2xl">
                         <button 
                             onClick={() => setIsModalOpen(false)}
                             className="absolute -top-10 right-0 text-white hover:text-gray-300 flex items-center gap-2"
@@ -117,7 +117,7 @@ export function FeatureGrid() {
                             <img 
                                 src="/compliance-mockup.jpg" 
                                 alt="Compliance Dashboard Mockup" 
-                                className="w-full max-h-[75vh] object-contain bg-black"
+                                className="w-full aspect-video object-cover object-top"
                             />
                         </div>
                         <div className="absolute -bottom-8 left-0 right-0 flex justify-center pb-8 px-4">
