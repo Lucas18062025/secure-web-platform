@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   title: "Secure Web Platform",
   description:
     "Security engineering platform for understanding risk, attack surface and application security.",
+  verification: {
+    google: "zq6NumPlkN-eb7u_bSJ4jdGrkbbpXoYq9zBiCoyjEew",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
