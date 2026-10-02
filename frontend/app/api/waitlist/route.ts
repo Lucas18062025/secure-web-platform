@@ -1,6 +1,5 @@
+import { getCloudflareContext } from "@opennextjs/cloudflare";
 import { NextRequest, NextResponse } from "next/server";
-
-export const runtime = "edge";
 
 export async function POST(request: NextRequest) {
     try {
@@ -13,10 +12,10 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        // @ts-expect-error — Cloudflare env vars are injected at runtime
-        const token: string = process.env.TELEGRAM_BOT_TOKEN;
-        // @ts-expect-error — Cloudflare env vars are injected at runtime
-        const chatId: string = process.env.TELEGRAM_CHAT_ID;
+        // Acceso correcto a secrets de Cloudflare Workers con OpenNext
+        const { env } = await getCloudflareContext({ async: true });
+        const token = (env as Record<string, string>).TELEGRAM_BOT_TOKEN;
+        const chatId = (env as Record<string, string>).TELEGRAM_CHAT_ID;
 
         if (!token || !chatId) {
             console.error("Faltan variables de entorno de Telegram");
