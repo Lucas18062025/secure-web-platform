@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     GaugeIcon,
     ScanIcon,
@@ -40,12 +40,37 @@ export function FeatureGrid() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [joinedWaitlist, setJoinedWaitlist] = useState(false);
     const [email, setEmail] = useState("");
+    const overlayRef = useRef<HTMLDivElement>(null);
 
-    const handleJoinWaitlist = (e: React.FormEvent) => {
+    useEffect(() => {
+        if (isModalOpen && overlayRef.current) {
+            overlayRef.current.scrollTop = 0;
+        }
+    }, [isModalOpen]);
+
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [error, setError] = useState("");
+
+    const handleJoinWaitlist = async (e: React.FormEvent) => {
         e.preventDefault();
-        if (email) {
-            setJoinedWaitlist(true);
-            // Aquí en un futuro enviarías 'email' a tu backend o servicio (ej. Resend, Mailchimp)
+        if (!email) return;
+        setIsSubmitting(true);
+        setError("");
+        try {
+            const res = await fetch("/api/waitlist", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ email }),
+            });
+            if (res.ok) {
+                setJoinedWaitlist(true);
+            } else {
+                setError("Algo salió mal. Intentá de nuevo.");
+            }
+        } catch {
+            setError("Sin conexión. Intentá de nuevo.");
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -104,7 +129,7 @@ export function FeatureGrid() {
             </div>
 
             {isModalOpen && (
-                <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md p-4 sm:p-8 flex justify-center items-start">
+                <div ref={overlayRef} className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md p-4 sm:p-8 flex justify-center items-start">
                     <div className="my-8 mt-12 w-full max-w-6xl rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-3 pb-6 shadow-2xl">
                         <button 
                             onClick={() => setIsModalOpen(false)}
@@ -120,21 +145,30 @@ export function FeatureGrid() {
                                 className="w-full aspect-video object-cover object-top"
                             />
                         </div>
-                        <div className="mt-4 flex justify-center px-4">
+                        <div className="mt-4 flex flex-col items-center gap-2 px-4">
                             {!joinedWaitlist ? (
-                                <form onSubmit={handleJoinWaitlist} className="flex flex-col sm:flex-row gap-3 w-full max-w-md bg-[var(--surface-secondary)] p-2 rounded-3xl border border-[var(--border)] shadow-2xl">
-                                    <input 
-                                        type="email" 
-                                        placeholder="tu@email.com" 
-                                        required
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full flex-1 rounded-full border border-[var(--border)] bg-[var(--surface)] px-6 py-3 text-sm text-[var(--text-primary)] outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]"
-                                    />
-                                    <button type="submit" className="rounded-full bg-[var(--accent)] px-8 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(var(--accent-rgb),0.4)] hover:bg-[var(--accent-soft)] hover:scale-105 transition-all whitespace-nowrap">
-                                        Unirse
-                                    </button>
-                                </form>
+                                <>
+                                    <form onSubmit={handleJoinWaitlist} className="flex flex-col sm:flex-row gap-3 w-full max-w-md bg-[var(--surface-secondary)] p-2 rounded-3xl border border-[var(--border)] shadow-2xl">
+                                        <input 
+                                            type="email" 
+                                            placeholder="tu@email.com" 
+                                            required
+                                            value={email}
+                                            onChange={(e) => setEmail(e.target.value)}
+                                            className="w-full flex-1 rounded-full border border-[var(--border)] bg-[var(--surface)] px-6 py-3 text-sm text-[var(--text-primary)] outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]"
+                                        />
+                                        <button 
+                                            type="submit" 
+                                            disabled={isSubmitting}
+                                            className="rounded-full bg-[var(--accent)] px-8 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(var(--accent-rgb),0.4)] hover:bg-[var(--accent-soft)] hover:scale-105 transition-all whitespace-nowrap disabled:opacity-60 disabled:cursor-not-allowed disabled:scale-100"
+                                        >
+                                            {isSubmitting ? "Enviando..." : "Unirse"}
+                                        </button>
+                                    </form>
+                                    {error && (
+                                        <p className="text-xs text-red-400">{error}</p>
+                                    )}
+                                </>
                             ) : (
                                 <div className="rounded-full border border-[var(--success)]/20 bg-[var(--success)]/10 px-8 py-3 text-sm font-semibold text-[var(--success)] flex items-center gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
