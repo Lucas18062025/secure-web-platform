@@ -105,7 +105,7 @@ export function FeatureGrid() {
 
             {isModalOpen && (
                 <div className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md p-4 sm:p-8 flex justify-center items-start">
-                    <div className="relative my-8 mt-12 w-full max-w-6xl rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-3 shadow-2xl">
+                    <div className="my-8 mt-12 w-full max-w-6xl rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-3 pb-6 shadow-2xl">
                         <button 
                             onClick={() => setIsModalOpen(false)}
                             className="absolute -top-10 right-0 text-white hover:text-gray-300 flex items-center gap-2"
@@ -120,23 +120,23 @@ export function FeatureGrid() {
                                 className="w-full aspect-video object-cover object-top"
                             />
                         </div>
-                        <div className="absolute -bottom-8 left-0 right-0 flex justify-center pb-8 px-4">
+                        <div className="mt-4 flex justify-center px-4">
                             {!joinedWaitlist ? (
-                                <form onSubmit={handleJoinWaitlist} className="flex flex-col sm:flex-row gap-3 w-full max-w-md bg-[var(--surface)] p-2 rounded-3xl border border-[var(--border)] shadow-2xl">
+                                <form onSubmit={handleJoinWaitlist} className="flex flex-col sm:flex-row gap-3 w-full max-w-md bg-[var(--surface-secondary)] p-2 rounded-3xl border border-[var(--border)] shadow-2xl">
                                     <input 
                                         type="email" 
                                         placeholder="tu@email.com" 
                                         required
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full flex-1 rounded-full border border-[var(--border)] bg-[var(--surface-secondary)] px-6 py-3 text-sm text-[var(--text-primary)] outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]"
+                                        className="w-full flex-1 rounded-full border border-[var(--border)] bg-[var(--surface)] px-6 py-3 text-sm text-[var(--text-primary)] outline-none focus:border-[var(--accent)] focus:ring-1 focus:ring-[var(--accent)]"
                                     />
                                     <button type="submit" className="rounded-full bg-[var(--accent)] px-8 py-3 text-sm font-semibold text-white shadow-[0_0_20px_rgba(var(--accent-rgb),0.4)] hover:bg-[var(--accent-soft)] hover:scale-105 transition-all whitespace-nowrap">
                                         Unirse
                                     </button>
                                 </form>
                             ) : (
-                                <div className="rounded-full border border-[var(--success)]/20 bg-[var(--success)]/10 px-8 py-3 text-sm font-semibold text-[var(--success)] flex items-center gap-2 shadow-2xl bg-[var(--surface)]">
+                                <div className="rounded-full border border-[var(--success)]/20 bg-[var(--success)]/10 px-8 py-3 text-sm font-semibold text-[var(--success)] flex items-center gap-2">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 11.08V12a10 10 10 0 1 1-5.93-9.14"></path><polyline points="22 4 12 14.01 9 11.01"></polyline></svg>
                                     ¡Genial! Te avisaremos pronto.
                                 </div>
