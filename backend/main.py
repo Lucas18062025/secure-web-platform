@@ -15,12 +15,15 @@ from __future__ import annotations
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-app = FastAPI(title="Secure Web Platform API", version="0.1.0")
+from app.api import router as api_router
+
+app = FastAPI(title="Secure Web Platform API", version="0.2.0")
+app.include_router(api_router)
 
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
-    allow_methods=["GET"],
+    allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
 
