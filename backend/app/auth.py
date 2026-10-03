@@ -9,6 +9,7 @@ from __future__ import annotations
 import uuid
 from functools import lru_cache
 from pathlib import Path
+import os
 
 import jwt
 from fastapi import Depends, HTTPException, status
@@ -21,11 +22,13 @@ from .models import Account, User
 
 
 def _env(key: str) -> str:
+    if os.environ.get(key):
+        return os.environ[key]
     env_file = Path(__file__).resolve().parents[2] / ".env"
     for line in env_file.read_text().splitlines():
         if line.startswith(f"{key}="):
             return line.split("=", 1)[1].strip()
-    raise RuntimeError(f"{key} no encontrado en .env raíz")
+    raise RuntimeError(f"{key} no encontrado (env ni .env raíz)")
 
 
 SUPABASE_URL = _env("SUPABASE_URL")

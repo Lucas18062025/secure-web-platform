@@ -76,10 +76,16 @@ La plataforma está diseñada siguiendo una separación clara de responsabilidad
 
 **En desarrollo.**
 
-La interfaz y la arquitectura base están implementadas. El backend expone
-scoring demo (`GET /api/score`, ver `backend/README.md`); el siguiente paso
-es el scanner real, persistencia (`database/README.md`), autenticación/autorización
-y despliegue público.
+- ✅ Persistencia PostgreSQL + Alembic (`accounts`, `users`, `projects`,
+  `targets`, `scans`, `findings`).
+- ✅ Auth Supabase Auth (JWT por JWKS) + autorización por cuenta.
+- ✅ Scans E2E con worker pasivo (`passive-python`): crear objetivo,
+  iniciar análisis, persistir y ver hallazgos. Comparativa scan-vs-scan.
+- ⏳ Siguiente: perfil OWASP ZAP (requiere Docker), login en el frontend.
+
+La interfaz sirve scoring demo (`GET /api/score`, ver `backend/README.md`);
+el backend expone la API real (`/api/projects`, `/api/targets`,
+`/api/scans`, ver `backend/README.md`).
 
 ## 🌐 Deploy
 

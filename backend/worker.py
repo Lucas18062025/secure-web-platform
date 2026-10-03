@@ -152,7 +152,25 @@ def _run_once(scan_id: uuid.UUID) -> None:
         _finish(scan_id, "failed", [])
 
 
+def _requeue_stuck() -> int:
+    """Al arrancar: los scans en running son de un worker muerto. A la cola."""
+    db = SessionLocal()
+    try:
+        n = (
+            db.query(Scan)
+            .filter(Scan.status == "running")
+            .update({"status": "queued", "started_at": None}, synchronize_session=False)
+        )
+        db.commit()
+        return n
+    finally:
+        db.close()
+
+
 def main() -> None:
+    stuck = _requeue_stuck()
+    if stuck:
+        print(f"worker fase 3: {stuck} scan(s) colgado(s) devueltos a queued")
     print(f"worker fase 3: perfil passive-python, poll cada {POLL_SECONDS}s")
     while True:
         try:

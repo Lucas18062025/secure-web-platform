@@ -1,12 +1,15 @@
 # Database — alcance
 
-Persistencia objetivo: **PostgreSQL** (`DATABASE_URL` en `/.env.example`).
+Persistencia: **PostgreSQL** en Supabase (`DATABASE_URL` en `/.env`;
+en deploy se usa variable de entorno, ver `backend/app/db.py`).
 
-Estado: sin esquema todavía. El API sirve datos demo estáticos
-(`backend/main.py`). Antes de modelar tablas, definir:
+Esquema gestionado con **Alembic** (`backend/alembic/`):
+`accounts`, `users` (+ `auth_id` de Supabase Auth), `projects`,
+`targets`, `scans`, `findings`. Migraciones:
 
-1. `findings` (id, severity, technical, business_impact, remediation, status)
-2. `scans` (target_url, score, grade, created_at)
-3. `targets` (url, owner, consentimiento firmado — PyMEs solo con autorización)
+```powershell
+# desde backend/
+.\venv\Scripts\python.exe -m alembic upgrade head
+```
 
 Alternativa edge: Cloudflare D1 si el deploy exige Workers puros.
