@@ -34,3 +34,33 @@ class TargetOut(BaseModel):
     created_at: datetime
 
     model_config = {"from_attributes": True}
+
+
+class ScanCreate(BaseModel):
+    target_id: uuid.UUID
+    profile: str = Field(default="passive-python", max_length=64)
+
+
+class ScanOut(BaseModel):
+    id: uuid.UUID
+    target_id: uuid.UUID
+    status: str
+    profile: str
+    origin: str
+    created_at: datetime
+
+    model_config = {"from_attributes": True}
+
+
+class FindingOut(BaseModel):
+    id: uuid.UUID
+    key: str
+    title: str
+    severity: str
+    technical: str
+    business_impact: str
+    remediation: str
+    compliance: list
+    status: str
+
+    model_config = {"from_attributes": True}

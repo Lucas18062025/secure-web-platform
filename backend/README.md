@@ -13,3 +13,20 @@ uvicorn main:app --port 8000
 ```
 
 El frontend consume `NEXT_PUBLIC_API` (ver `/.env.example`).
+
+## Worker fase 3 (escaneo pasivo)
+
+Proceso aparte, nunca dentro de una request. Toma scans `queued`,
+los ejecuta con el perfil `passive-python` (headers, TLS, cookies,
+info disclosure) y guarda findings normalizados.
+
+```powershell
+# terminal 1 (desde backend/)
+.\venv\Scripts\python.exe -m uvicorn main:app --port 8000
+# terminal 2 (desde backend/)
+.\venv\Scripts\python.exe worker.py
+```
+
+Flujo: `POST /api/targets` (con consentimiento) -> `POST /api/scans`
+-> worker `queued -> running -> done|failed` -> `GET /api/scans/{id}`
+y `GET /api/scans/{id}/findings`. Todo con Bearer token de Supabase Auth.

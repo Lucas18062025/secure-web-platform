@@ -15,8 +15,16 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
 from .auth import get_current_user, require_account_project, get_db
-from .models import Project, Target, User
-from .schemas import ProjectCreate, ProjectOut, TargetCreate, TargetOut
+from .models import Project, Scan, Finding, Target, User
+from .schemas import (
+    ProjectCreate,
+    ProjectOut,
+    TargetCreate,
+    TargetOut,
+    ScanCreate,
+    ScanOut,
+    FindingOut,
+)
 
 router = APIRouter()
 
@@ -99,5 +107,66 @@ def list_targets(
         db.query(Target)
         .filter(Target.project_id == project_id)
         .order_by(Target.created_at.desc())
+        .all()
+    )
+
+
+def require_account_scan(scan_id: uuid.UUID, user: User, db: Session) -> Scan:
+    """Devuelve el scan si su target pertenece a la cuenta del usuario."""
+    scan = (
+        db.query(Scan)
+        .join(Target, Scan.target_id == Target.id)
+        .join(Project, Target.project_id == Project.id)
+        .filter(Scan.id == scan_id, Project.account_id == user.account_id)
+        .first()
+    )
+    if not scan:
+        raise HTTPException(status_code=404, detail="Scan no encontrado")
+    return scan
+
+
+@router.post("/api/scans", response_model=ScanOut, status_code=201)
+def create_scan(
+    body: ScanCreate,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    if body.profile != "passive-python":
+        raise HTTPException(status_code=422, detail="Perfil no soportado")
+    target = (
+        db.query(Target)
+        .join(Project, Target.project_id == Project.id)
+        .filter(Target.id == body.target_id, Project.account_id == user.account_id)
+        .first()
+    )
+    if not target:
+        raise HTTPException(status_code=404, detail="Target no encontrado")
+    scan = Scan(target_id=target.id, status="queued", profile=body.profile)
+    db.add(scan)
+    db.commit()
+    db.refresh(scan)
+    return scan
+
+
+@router.get("/api/scans/{scan_id}", response_model=ScanOut)
+def get_scan(
+    scan_id: uuid.UUID,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    return require_account_scan(scan_id, user, db)
+
+
+@router.get("/api/scans/{scan_id}/findings", response_model=list[FindingOut])
+def list_scan_findings(
+    scan_id: uuid.UUID,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    scan = require_account_scan(scan_id, user, db)
+    return (
+        db.query(Finding)
+        .filter(Finding.scan_id == scan.id)
+        .order_by(Finding.severity.desc(), Finding.created_at)
         .all()
     )
