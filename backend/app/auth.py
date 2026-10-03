@@ -15,6 +15,7 @@ import jwt
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
 from jwt import PyJWKClient
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from .db import SessionLocal
@@ -86,12 +87,21 @@ def get_current_user(
     if user:
         return user
     # Alta perezosa: primer login crea cuenta personal + usuario.
+    # Si dos logins corren a la vez, el unique de auth_id hace perder
+    # a uno: se reintenta leyendo al ganador en vez de 500.
     account = Account(name=email.split("@")[0])
     db.add(account)
     db.flush()
     user = User(account_id=account.id, auth_id=auth_id, email=email)
     db.add(user)
-    db.commit()
+    try:
+        db.commit()
+    except IntegrityError:
+        db.rollback()
+        user = db.query(User).filter(User.auth_id == auth_id).first()
+        if not user:
+            raise HTTPException(status_code=401, detail="No se pudo resolver el usuario")
+        return user
     db.refresh(user)
     return user
 

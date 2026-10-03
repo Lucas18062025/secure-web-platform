@@ -138,7 +138,12 @@ def _run_once(scan_id: uuid.UUID) -> None:
             try:
                 time.sleep(REQUEST_DELAY)  # cortesía: no golpear el target
                 resp = _fetch(url, target.host.lower())
-                findings = run_passive(url, resp) if resp.status_code < 500 else []
+                if resp.status_code >= 500:
+                    # El target falló: los chequeos no corrieron, no es un "limpio".
+                    print(f"[{scan_id}] target devolvió {resp.status_code}: failed")
+                    _finish(scan_id, "failed", [])
+                    return
+                findings = run_passive(url, resp)
                 _finish(scan_id, "done", findings)
                 return
             except (httpx.RequestError, httpx.TimeoutException) as e:
