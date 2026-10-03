@@ -24,6 +24,7 @@ from .schemas import (
     ScanCreate,
     ScanOut,
     FindingOut,
+    CompareOut,
 )
 
 router = APIRouter()
@@ -146,6 +147,29 @@ def create_scan(
     db.commit()
     db.refresh(scan)
     return scan
+
+
+@router.get("/api/scans/compare", response_model=CompareOut)
+def compare_scans(
+    base_id: uuid.UUID,
+    other_id: uuid.UUID,
+    user: User = Depends(get_current_user),
+    db: Session = Depends(get_db),
+):
+    """Compara dos scans del MISMO target: nuevos, corregidos, persistentes."""
+    base = require_account_scan(base_id, user, db)
+    other = require_account_scan(other_id, user, db)
+    if base.target_id != other.target_id:
+        raise HTTPException(status_code=422, detail="Targets distintos")
+    base_keys = {f.key: f for f in db.query(Finding).filter(Finding.scan_id == base.id).all()}
+    other_keys = {f.key: f for f in db.query(Finding).filter(Finding.scan_id == other.id).all()}
+    return CompareOut(
+        base_id=base.id,
+        other_id=other.id,
+        new=[f for k, f in other_keys.items() if k not in base_keys],
+        fixed=[f for k, f in base_keys.items() if k not in other_keys],
+        persisting=[f for k, f in other_keys.items() if k in base_keys],
+    )
 
 
 @router.get("/api/scans/{scan_id}", response_model=ScanOut)

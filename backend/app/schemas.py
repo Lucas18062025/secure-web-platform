@@ -64,3 +64,11 @@ class FindingOut(BaseModel):
     status: str
 
     model_config = {"from_attributes": True}
+
+
+class CompareOut(BaseModel):
+    base_id: uuid.UUID
+    other_id: uuid.UUID
+    new: list[FindingOut]
+    fixed: list[FindingOut]
+    persisting: list[FindingOut]

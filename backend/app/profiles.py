@@ -116,6 +116,53 @@ def run_passive(url: str, response: httpx.Response) -> list[dict]:
                 }
             )
             break
+    for cookie in response.headers.get_list("set-cookie"):
+        parts = [p.strip().lower() for p in cookie.split(";")]
+        if not any(p.startswith("samesite=") for p in parts):
+            findings.append(
+                {
+                    "key": "COOKIE-SAMESITE",
+                    "title": "Cookie sin atributo SameSite",
+                    "severity": "low",
+                    "technical": f"Set-Cookie sin SameSite: {parts[0]}.",
+                    "business_impact": "La cookie viaja en navegación cross-site: CSRF.",
+                    "remediation": "Emitir cookies con SameSite=Lax (o Strict).",
+                    "compliance": ["OWASP Top 10: A07:2021"],
+                }
+            )
+            break
+
+    hsts = headers.get("strict-transport-security", "")
+    if hsts:
+        import re
+
+        m = re.search(r"max-age=(\d+)", hsts)
+        if m and int(m.group(1)) < 15552000:
+            findings.append(
+                {
+                    "key": "HDR-HSTS-WEAK",
+                    "title": "HSTS con max-age corto",
+                    "severity": "low",
+                    "technical": f"HSTS con max-age={m.group(1)} (< 6 meses).",
+                    "business_impact": "Protección parcial contra downgrade a HTTP.",
+                    "remediation": "Subir max-age a 31536000 con includeSubDomains.",
+                    "compliance": ["OWASP Top 10: A05:2021"],
+                }
+            )
+
+    csp = headers.get("content-security-policy", "")
+    if csp and ("'unsafe-inline'" in csp or "'unsafe-eval'" in csp):
+        findings.append(
+            {
+                "key": "HDR-CSP-WEAK",
+                "title": "CSP permisiva (unsafe-inline/unsafe-eval)",
+                "severity": "medium",
+                "technical": "La CSP permite inline/eval: neutraliza gran parte de su valor.",
+                "business_impact": "Un XSS inyectado tiene vía libre para ejecutarse.",
+                "remediation": "Migrar a nonces/hashes y eliminar unsafe-*.",
+                "compliance": ["OWASP Top 10: A05:2021", "PCI-DSS: 6.5.7"],
+            }
+        )
 
     server = headers.get("server", "") + " " + headers.get("x-powered-by", "")
     if server.strip():

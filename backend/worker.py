@@ -31,6 +31,9 @@ from app.profiles import run_passive  # noqa: E402
 
 POLL_SECONDS = int(os.environ.get("WORKER_POLL_SECONDS", "5"))
 TIMEOUT = 20
+RETRIES = int(os.environ.get("WORKER_RETRIES", "2"))
+RETRY_DELAY = int(os.environ.get("WORKER_RETRY_DELAY", "10"))
+REQUEST_DELAY = int(os.environ.get("WORKER_REQUEST_DELAY", "2"))  # cortesía
 
 
 def _resolve_global_ips(host: str) -> list[str]:
@@ -130,9 +133,20 @@ def _run_once(scan_id: uuid.UUID) -> None:
         _resolve_global_ips(host)
         if host.lower() != target.host.lower():
             raise ValueError("Host fuera del alcance aprobado")
-        resp = _fetch(url, target.host.lower())
-        findings = run_passive(url, resp) if resp.status_code < 500 else []
-        _finish(scan_id, "done", findings)
+        last_error: Exception | None = None
+        for attempt in range(1 + RETRIES):
+            try:
+                time.sleep(REQUEST_DELAY)  # cortesía: no golpear el target
+                resp = _fetch(url, target.host.lower())
+                findings = run_passive(url, resp) if resp.status_code < 500 else []
+                _finish(scan_id, "done", findings)
+                return
+            except (httpx.RequestError, httpx.TimeoutException) as e:
+                last_error = e
+                print(f"[{scan_id}] intento {attempt + 1} falló (red): {e}")
+                time.sleep(RETRY_DELAY)
+        print(f"[{scan_id}] failed tras reintentos: {last_error}")
+        _finish(scan_id, "failed", [])
     except Exception as e:
         print(f"[{scan_id}] failed: {e}")
         _finish(scan_id, "failed", [])
