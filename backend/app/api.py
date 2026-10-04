@@ -84,11 +84,14 @@ def create_target(
 ):
     require_account_project(body.project_id, user, db)
     host, clean_url = _approved_host(body.url)
+    consent = body.consent_by.strip()
+    if len(consent) < 3:
+        raise HTTPException(status_code=422, detail="Consentimiento insuficiente")
     target = Target(
         project_id=body.project_id,
         host=host,
         original_url=clean_url,
-        consent_by=body.consent_by.strip(),
+        consent_by=consent,
         consent_at=datetime.now(timezone.utc),
     )
     db.add(target)

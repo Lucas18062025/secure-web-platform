@@ -3,14 +3,19 @@
 ## Proyecto
 Plataforma de ingeniería de seguridad: identificar, priorizar y remediar riesgos
 de apps web. Frontend Next.js en Cloudflare + API FastAPI coordinadora +
-worker de escaneo aislado + PostgreSQL. Estado: demo funcional, núcleo de
-análisis aún no real (ver `README.md`, `backend/README.md`, `database/README.md`).
+worker de escaneo aislado + PostgreSQL (Supabase). Estado: persistencia +
+auth + scans `passive-python` E2E funcionales; ZAP Baseline y login frontend
+pendientes (ver `README.md`, `backend/README.md`, `database/README.md`).
 
 ## Estructura
 - `frontend/`: Next.js 16.3.1 + React 19 + Tailwind 4 + TS, deploy Cloudflare
   vía OpenNext. Tiene su propio `frontend/AGENTS.md` (manda dentro de `frontend/`).
-- `backend/`: FastAPI (`main.py`), hoy scoring demo (`/api/health`, `/api/score`).
-- `database/`: PostgreSQL objetivo, aún sin esquema (ver `database/README.md`).
+  Dashboard hoy con datos de ejemplo, sin login.
+- `backend/`: FastAPI + worker `worker.py` (nunca en request). API real:
+  `/api/projects`, `/api/targets`, `/api/scans`, `/api/scans/{id}/findings`.
+  `/api/score` es legacy demo (deprecated, no usar para decisiones).
+- `database/`: PostgreSQL en Supabase + Alembic (`backend/alembic/`):
+  `accounts`, `users` (+ `auth_id`), `projects`, `targets`, `scans`, `findings`.
 - `assets/`: banner y recursos.
 
 ## Arquitectura decidida (oct-2026)
@@ -39,8 +44,10 @@ análisis aún no real (ver `README.md`, `backend/README.md`, `database/README.m
 ## Comandos
 - Frontend (desde `frontend/`): `npm run dev` | `npm run lint` | `npm run build` |
   `npm run preview` | `npm run deploy` | `npm run cf-typegen` (tras tocar `wrangler.jsonc`)
-- Backend (desde `backend/`): `pip install -r requirements.txt` |
-  `uvicorn main:app --port 8000` (docs en `/docs`)
+- Backend (desde `backend/`, con `venv` existente, sin instalar nada nuevo):
+  `.\venv\Scripts\python.exe -m alembic upgrade head` |
+  `.\venv\Scripts\python.exe -m uvicorn main:app --port 8000` (docs en `/docs`) |
+  worker en 2da terminal: `.\venv\Scripts\python.exe worker.py`
 
 ## Reglas
 - Orden: este AGENTS.md > `frontend/AGENTS.md` > código.

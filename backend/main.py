@@ -14,15 +14,21 @@ from __future__ import annotations
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+import os
 
 from app.api import router as api_router
 
 app = FastAPI(title="Secure Web Platform API", version="0.2.0")
 app.include_router(api_router)
 
+# CORS por env, sin tocar código para prod.
+# Ej: ALLOWED_ORIGINS="http://localhost:3000,https://frontend.lucaslean1806.workers.dev"
+_extra = [o.strip() for o in os.environ.get("ALLOWED_ORIGINS", "").split(",") if o.strip()]
+_allow = ["http://localhost:3000", "http://127.0.0.1:3000", *_extra]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:3000", "http://127.0.0.1:3000"],
+    allow_origins=_allow,
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
@@ -57,9 +63,10 @@ def health() -> dict:
     return {"status": "ok", "service": "secure-web-api", "version": "0.1.0"}
 
 
-@app.get("/api/score")
+@app.get("/api/score", deprecated=True, tags=["legacy-demo"])
 def score() -> dict:
-    """Score demo + findings con contexto técnico y de negocio."""
+    """LEGACY demo estática. No usar para decisiones reales.
+    La API real es /api/projects, /api/targets, /api/scans."""
     penalty = sum(_SEVERITY_WEIGHT.get(f["severity"], 0) for f in _DEMO_FINDINGS)
     return {
         "score": max(0, 100 - penalty),

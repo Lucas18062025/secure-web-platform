@@ -23,7 +23,9 @@ class ProjectOut(BaseModel):
 class TargetCreate(BaseModel):
     project_id: uuid.UUID
     url: str = Field(min_length=1, max_length=2048)
-    consent_by: str = Field(min_length=1, max_length=254)
+    # Mínimo 3 para evitar "x"/"ok" como falso consentimiento.
+    # Fase 4 real: checkbox + evidencia (quién/cuándo/qué dominio).
+    consent_by: str = Field(min_length=3, max_length=254)
 
 
 class TargetOut(BaseModel):

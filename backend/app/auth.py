@@ -51,7 +51,7 @@ def verify_token(token: str) -> dict:
         return jwt.decode(
             token,
             key,
-            algorithms=["ES256"],
+            algorithms=["ES256", "RS256"],
             audience="authenticated",
             issuer=_ISSUER,
             leeway=30,
@@ -89,7 +89,10 @@ def get_current_user(
     # Alta perezosa: primer login crea cuenta personal + usuario.
     # Si dos logins corren a la vez, el unique de auth_id hace perder
     # a uno: se reintenta leyendo al ganador en vez de 500.
-    account = Account(name=email.split("@")[0])
+    # name lleva sufijo del auth_id para evitar colisiones
+    # (dos emails con mismo prefijo, ej. admin@a.com vs admin@b.com).
+    base = (email.split("@")[0] or "cuenta")[:60]
+    account = Account(name=f"{base}-{str(auth_id)[:8]}")
     db.add(account)
     db.flush()
     user = User(account_id=account.id, auth_id=auth_id, email=email)
