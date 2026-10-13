@@ -25,6 +25,12 @@
   "images": {
     "binding": "IMAGES"
   },
+  "kv_namespaces": [
+    {
+      "binding": "WAITLIST_RATE_KV",
+      "id": "a9e92eb06054456489baa9c81ebe12c3"
+    }
+  ],
   "observability": {
     "enabled": true
   }
