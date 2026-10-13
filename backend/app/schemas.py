@@ -5,11 +5,27 @@ from __future__ import annotations
 import uuid
 from datetime import datetime
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, field_validator
+
+
+def _clean_text(v: str, max_len: int) -> str:
+    t = v.replace("\u0000", "")
+    t = "".join(ch for ch in t if ord(ch) >= 32 or ch in ("\n", "\t"))
+    t = t.replace("<", "").replace(">", "").replace('"', "").replace("'", "").replace("`", "")
+    t = " ".join(t.split()).strip()
+    return t[:max_len]
 
 
 class ProjectCreate(BaseModel):
     name: str = Field(min_length=1, max_length=120)
+
+    @field_validator("name")
+    @classmethod
+    def _sanitize_name(cls, v: str) -> str:
+        t = _clean_text(v, 120)
+        if not t:
+            raise ValueError("Nombre vacío tras sanitizar")
+        return t
 
 
 class ProjectOut(BaseModel):
@@ -27,6 +43,14 @@ class TargetCreate(BaseModel):
     # Fase 4 real: checkbox + evidencia (quién/cuándo/qué dominio).
     consent_by: str = Field(min_length=3, max_length=254)
 
+    @field_validator("consent_by")
+    @classmethod
+    def _sanitize_consent(cls, v: str) -> str:
+        t = _clean_text(v, 254)
+        if len(t) < 3:
+            raise ValueError("Consentimiento insuficiente tras sanitizar")
+        return t
+
 
 class TargetOut(BaseModel):
     id: uuid.UUID
@@ -41,6 +65,11 @@ class TargetOut(BaseModel):
 class ScanCreate(BaseModel):
     target_id: uuid.UUID
     profile: str = Field(default="passive-python", max_length=64)
+
+    @field_validator("profile")
+    @classmethod
+    def _sanitize_profile(cls, v: str) -> str:
+        return _clean_text(v, 64) or "passive-python"
 
 
 class ScanOut(BaseModel):
