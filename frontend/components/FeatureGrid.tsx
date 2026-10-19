@@ -1,27 +1,42 @@
 "use client";
 
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import {
+    ArrowUpRightIcon,
     GaugeIcon,
     ScanIcon,
     ShieldAlertIcon,
     SlidersIcon,
 } from "./Icons";
 
-const features = [
+type Capability = {
+    icon: typeof ScanIcon;
+    title: string;
+    description: string;
+    large?: boolean;
+    // Cada capacidad lleva a una pantalla real del producto o abre su vista previa.
+    cta?:
+        | { label: string; href: string }
+        | { label: string; opensModal: true };
+};
+
+const features: Capability[] = [
     {
         icon: ScanIcon,
         title: "Análisis de seguridad",
         description:
             "Detecta debilidades antes de que puedan convertirse en incidentes que afecten la operación, los datos o la confianza de los clientes.",
         large: true,
+        cta: { label: "Iniciar análisis", href: "/analysis/new" },
     },
     {
         icon: ShieldAlertIcon,
         title: "Gestión de vulnerabilidades",
         description:
             "Prioriza los riesgos que pueden generar mayores pérdidas y enfoca los esfuerzos de corrección donde más impacto tienen.",
+        cta: { label: "Ver panel", href: "/dashboard" },
     },
     {
         icon: GaugeIcon,
@@ -34,6 +49,7 @@ const features = [
         title: "Cumplimiento (Compliance)",
         description:
             "Asigna automáticamente cada hallazgo a normativas como OWASP, PCI-DSS e ISO 27001 para facilitar las auditorías y demostrar el estado de seguridad.",
+        cta: { label: "Ver capacidad", opensModal: true },
     },
 ];
 
@@ -114,8 +130,6 @@ export function FeatureGrid() {
                 {features.map((feature) => {
                     const Icon = feature.icon;
 
-                    const isCompliance = feature.title.includes("Compliance");
-
                     return (
                         <article
                             key={feature.title}
@@ -136,12 +150,25 @@ export function FeatureGrid() {
                                 {feature.description}
                             </p>
 
-                            <button 
-                                onClick={() => isCompliance && setIsModalOpen(true)}
-                                className={`mt-8 text-xs font-medium uppercase tracking-[0.16em] transition ${isCompliance ? 'text-[var(--accent)] hover:text-[var(--accent-soft)] cursor-pointer' : 'text-[var(--text-secondary)] cursor-not-allowed opacity-50'}`}
-                            >
-                                Ver capacidad
-                            </button>
+                            {feature.cta &&
+                                ("href" in feature.cta ? (
+                                    <Link
+                                        href={feature.cta.href}
+                                        className="mt-8 inline-flex items-center gap-2 text-xs font-medium uppercase tracking-[0.16em] text-[var(--accent)] transition hover:text-[var(--accent-soft)]"
+                                    >
+                                        {feature.cta.label}
+                                        <ArrowUpRightIcon className="h-4 w-4" />
+                                    </Link>
+                                ) : (
+                                    <button
+                                        type="button"
+                                        onClick={() => setIsModalOpen(true)}
+                                        aria-haspopup="dialog"
+                                        className="mt-8 cursor-pointer text-xs font-medium uppercase tracking-[0.16em] text-[var(--accent)] transition hover:text-[var(--accent-soft)]"
+                                    >
+                                        {feature.cta.label}
+                                    </button>
+                                ))}
                         </article>
                     );
                 })}
