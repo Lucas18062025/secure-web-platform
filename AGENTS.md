@@ -62,3 +62,38 @@ pendientes (ver `README.md`, `backend/README.md`, `database/README.md`).
 - Frontend: `npm run lint` + `npm run build`.
 - Backend: `uvicorn` levanta y `/api/health` responde.
 - Explicar los cambios importantes realizados.
+
+### Cierre: sincronización local → GitHub → Cloudflare
+
+Este repo **no tiene CI/CD**: `.github/` solo contiene `copilot-instructions.md`,
+así que un push no deploya nada. La sincronización no la garantiza GitHub, la
+garantiza este ritual. Se corre siempre, salvo negación explícita del usuario.
+
+```powershell
+# Desde la raíz del repo
+
+# 1. Local limpio
+git status --porcelain
+
+# 2. Local == GitHub
+git rev-parse HEAD
+git ls-remote origin refs/heads/main
+
+# 3. Versión live (desde frontend/; la última entrada tiene el 100% del tráfico)
+cd frontend
+npx --yes wrangler@4.136.3 deployments list
+
+# 4. El artefacto desplegado es el del commit (sigo en frontend/)
+Get-Content .next\BUILD_ID
+# https://frontend.lucaslean1806.workers.dev/_next/static/<BUILD_ID>/_buildManifest.js -> 200
+```
+
+La versión que reporta `npm run deploy` (`Current Version ID`) tiene que ser la
+misma que figura al 100 % en `deployments list`.
+
+- Deploy solo con `npm run deploy` (OpenNext), nunca `wrangler deploy` suelto.
+- Cambio que no toca el artefacto (este `AGENTS.md`, docs, `specs/`): push sin
+  deploy, y se dice en la respuesta final.
+- Si el deploy falla o la versión no queda al 100 %, la tarea no está terminada.
+- Partes client-side (modal, menú): verificar con navegador real (CDP), no con
+  `grep` sobre el HTML inicial, porque no están en el primer render.
