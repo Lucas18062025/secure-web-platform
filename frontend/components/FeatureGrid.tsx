@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import {
     GaugeIcon,
@@ -46,6 +47,24 @@ export function FeatureGrid() {
         if (isModalOpen && overlayRef.current) {
             overlayRef.current.scrollTop = 0;
         }
+    }, [isModalOpen]);
+
+    // Cerrar con Escape y bloquear el scroll del fondo mientras el modal está abierto.
+    useEffect(() => {
+        if (!isModalOpen) return;
+
+        const onKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") setIsModalOpen(false);
+        };
+
+        document.addEventListener("keydown", onKeyDown);
+        const previousOverflow = document.body.style.overflow;
+        document.body.style.overflow = "hidden";
+
+        return () => {
+            document.removeEventListener("keydown", onKeyDown);
+            document.body.style.overflow = previousOverflow;
+        };
     }, [isModalOpen]);
 
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -129,9 +148,21 @@ export function FeatureGrid() {
             </div>
 
             {isModalOpen && (
-                <div ref={overlayRef} className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md p-4 sm:p-8 flex justify-center items-start">
-                    <div className="my-8 mt-12 w-full max-w-6xl rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-3 pb-6 shadow-2xl">
+                <div
+                    ref={overlayRef}
+                    onClick={(e) => {
+                        if (e.target === e.currentTarget) setIsModalOpen(false);
+                    }}
+                    className="fixed inset-0 z-50 overflow-y-auto bg-black/80 backdrop-blur-md p-4 sm:p-8 flex justify-center items-start"
+                >
+                    <div
+                        role="dialog"
+                        aria-modal="true"
+                        aria-label="Vista previa de la capacidad de cumplimiento"
+                        className="relative my-8 mt-12 w-full max-w-6xl rounded-2xl border border-[var(--border)] bg-[var(--surface)] p-3 pb-6 shadow-2xl"
+                    >
                         <button 
+                            type="button"
                             onClick={() => setIsModalOpen(false)}
                             className="absolute -top-10 right-0 text-white hover:text-gray-300 flex items-center gap-2"
                         >
@@ -139,10 +170,14 @@ export function FeatureGrid() {
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
                         </button>
                         <div className="overflow-hidden rounded-xl border border-[var(--border)]">
-                            <img 
-                                src="/compliance-mockup.jpg" 
-                                alt="Compliance Dashboard Mockup" 
-                                className="w-full aspect-video object-cover object-top"
+                            <Image
+                                src="/compliance-mockup.jpg"
+                                alt="Vista de cumplimiento: hallazgos mapeados a los controles de OWASP ASVS, PCI-DSS e ISO/IEC 27001"
+                                width={2400}
+                                height={1350}
+                                quality={88}
+                                sizes="(max-width: 1200px) 100vw, 1152px"
+                                className="h-auto w-full"
                             />
                         </div>
                         <div className="mt-4 flex flex-col items-center gap-2 px-4">

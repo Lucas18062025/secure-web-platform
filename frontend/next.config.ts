@@ -3,6 +3,12 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   allowedDevOrigins: ["192.168.100.63"],
 
+  images: {
+    // Next 16 exige declarar las calidades permitidas (por defecto solo 75).
+    // 88 mantiene nitido el texto del mockup de cumplimiento en pantallas retina.
+    qualities: [75, 88],
+  },
+
   async headers() {
     return [
       {
